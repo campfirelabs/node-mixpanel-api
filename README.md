@@ -3,6 +3,10 @@ MixpanelAPI
 
 Queries the [Mixpanel Data API](http://mixpanel.com/api/docs/guides/api/v2). Requires node 0.4.0 or higher.
 
+Installation
+============
+
+`npm install mixpanel-api`
 
 Show me the code
 ================
