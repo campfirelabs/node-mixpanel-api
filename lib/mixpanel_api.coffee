@@ -24,7 +24,7 @@ class MixpanelAPI
       if arguments.length is 3 and typeof arguments[2] is 'function'
         cb = valid_for
         valid_for = null
-
+        
       valid_for or= @options.default_valid_for
       cb or= @options.log_fn
 
@@ -32,7 +32,7 @@ class MixpanelAPI
       params.expire = Math.floor(Date.now()/1000) + valid_for
 
       params_qs = querystring.stringify @_sign_params params
-      cb 'http://mixpanel.com/api/2.0/' + endpoint + '?' + params_qs
+      cb null, 'http://mixpanel.com/api/2.0/' + endpoint + '?' + params_qs
 
     catch e then cb e
     
@@ -88,7 +88,7 @@ class MixpanelAPI
       continue if key is 'callback' or key is 'sig'
       param = {}
       param[key] = params[key]
-      to_be_hashed += querystring.stringify param
+      to_be_hashed += querystring.unescape querystring.stringify param
     hash = crypto.createHash 'md5'
     hash.update to_be_hashed + @options.api_secret
     params.sig = hash.digest 'hex'
