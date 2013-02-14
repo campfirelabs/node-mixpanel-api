@@ -64,9 +64,7 @@ class MixpanelAPI
     to_be_hashed = ''
     for key in keys
       continue if key is 'callback' or key is 'sig'
-      param = {}
-      param[key] = params[key]
-      to_be_hashed += querystring.stringify param
+      to_be_hashed += key + '=' + params[key]
     hash = crypto.createHash 'md5'
     hash.update to_be_hashed + @options.api_secret
     params.sig = hash.digest 'hex'
