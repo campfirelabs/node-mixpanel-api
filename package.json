@@ -13,9 +13,6 @@
             "url": "http://github.com/campfirelabs/node-mixpanel-api.git",
         }
     ],
-    "engines": {
-        "node": ">= 0.4.0"
-    },
     "main": "./index.js",
     "dependencies": {
         "coffee-script": ">= 1.0.0"
