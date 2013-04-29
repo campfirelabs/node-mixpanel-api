@@ -13,6 +13,28 @@ class MixpanelAPI
     @options[key] = val for key, val of options
     if not @options.api_key and @options.api_secret
       throw new Error 'MixpanelAPI needs token and secret parameters'
+
+  # duration is optional
+  signedUrl: (endpoint, params, valid_for, cb) ->
+    cb or= @options.log_fn
+    try
+      if typeof params isnt 'object' or typeof endpoint isnt 'string'
+        throw new Error 'request(endpoint, params, [valid_for], [cb]) expects an object params'
+
+      if arguments.length is 3 and typeof arguments[2] is 'function'
+        cb = valid_for
+        valid_for = null
+        
+      valid_for or= @options.default_valid_for
+      cb or= @options.log_fn
+
+      params.api_key = @options.api_key
+      params.expire = Math.floor(Date.now()/1000) + valid_for
+
+      params_qs = querystring.stringify @_sign_params params
+      cb null, 'http://mixpanel.com/api/2.0/' + endpoint + '?' + params_qs
+
+    catch e then cb e
     
   # duration is optional
   request: (endpoint, params, valid_for, cb) ->
@@ -31,7 +53,8 @@ class MixpanelAPI
       params.api_key = @options.api_key
       params.expire = Math.floor(Date.now()/1000) + valid_for
 
-      params_qs = querystring.stringify @_sign_params params
+      # params_qs = querystring.stringify @_sign_params params
+      params_qs = @_generate_query @_sign_params params
       req_opts =
         host: 'mixpanel.com'
         port: 80
@@ -55,6 +78,19 @@ class MixpanelAPI
       req.on 'error', cb
 
     catch e then cb e
+      
+  _generate_query: (params) ->
+    keys = Object.keys(params).sort()
+    query = ''
+    for key in keys
+      param = {}
+      param[key] = params[key]
+      str = querystring.unescape querystring.stringify param
+      if (typeof param[key] == 'object')
+        query += key + '=' + JSON.stringify(param[key]) + '&'
+      else
+        query += str + "&"
+    return query
 
   # takes parameters and returns parameters with added sig property
   _sign_params: (params) ->
@@ -66,7 +102,10 @@ class MixpanelAPI
       continue if key is 'callback' or key is 'sig'
       param = {}
       param[key] = params[key]
-      to_be_hashed += querystring.stringify param
+      if (typeof param[key] == 'object')
+        to_be_hashed += key + '=' + JSON.stringify param[key]
+      else
+        to_be_hashed += querystring.unescape querystring.stringify param
     hash = crypto.createHash 'md5'
     hash.update to_be_hashed + @options.api_secret
     params.sig = hash.digest 'hex'
