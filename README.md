@@ -3,10 +3,12 @@ MixpanelAPI
 
 Queries the [Mixpanel Data API](http://mixpanel.com/api/docs/guides/api/v2). Requires node 0.4.0 or higher.
 
+Updated to allow /events query with an array.
+
 Installation
 ============
 
-`npm install mixpanel-api`
+clone this for now. 
 
 Show me the code
 ================

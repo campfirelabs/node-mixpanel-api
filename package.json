@@ -7,17 +7,16 @@
         "email": "jonas.huckestein@gmail.com",
         "url": "http://thezukunft.com"
     },
-    "repositories": [
-        {
+    "repository": {
             "type": "git",
-            "url": "http://github.com/campfirelabs/node-mixpanel-api.git",
-        }
-    ],
-    "engines": {
-        "node": ">= 0.4.0"
+            "url": "http://github.com/Jonovono/node-mixpanel-api.git"
     },
-    "main": "./index.js",
-    "dependencies": {
-        "coffee-script": ">= 1.0.0"
+    "main": "lib/mixpanel_api.js",
+    "engines": {
+      "node": ">=0.8.0"
+    },
+    "dependencies": {},
+    "devDependencies": {
+      "coffeescript": ">=1.3"
     }
 }
