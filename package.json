@@ -9,7 +9,7 @@
     },
     "repository": {
             "type": "git",
-            "url": "http://github.com/Jonovono/node-mixpanel-api.git",
+            "url": "http://github.com/Jonovono/node-mixpanel-api.git"
     },
     "main": "lib/mixpanel_api.js",
     "engines": {
