@@ -7,7 +7,7 @@
         "email": "jonas.huckestein@gmail.com",
         "url": "http://thezukunft.com"
     },
-    "repositories": [
+    "repository": [
         {
             "type": "git",
             "url": "http://github.com/campfirelabs/node-mixpanel-api.git"
