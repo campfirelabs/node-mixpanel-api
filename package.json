@@ -10,7 +10,7 @@
     "repositories": [
         {
             "type": "git",
-            "url": "http://github.com/campfirelabs/node-mixpanel-api.git",
+            "url": "http://github.com/campfirelabs/node-mixpanel-api.git"
         }
     ],
     "engines": {
